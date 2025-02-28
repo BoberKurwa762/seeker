@@ -25,7 +25,7 @@
 
         .welcome-text {
             color: white;
-            font-size: 2.5em;
+            font-size: 3em;
             margin-top: 30px;
             padding: 20px 40px;
             display: inline-block;
@@ -66,6 +66,40 @@
             }
         }
 
+        .typewriter-cursor {
+            display: inline-block;
+            width: 4px;
+            height: 1em;
+            background-color: white;
+            margin-left: 2px;
+            vertical-align: middle;
+            animation: blink 1.2s ease-in-out infinite;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.8),
+                        0 0 10px rgba(255, 255, 255, 0.6),
+                        0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
+        @keyframes blink {
+            0% { 
+                opacity: 0.2;
+                box-shadow: 0 0 5px rgba(255, 255, 255, 0.4),
+                           0 0 10px rgba(255, 255, 255, 0.2),
+                           0 0 15px rgba(255, 255, 255, 0.1);
+            }
+            50% { 
+                opacity: 1;
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+                           0 0 20px rgba(255, 255, 255, 0.6),
+                           0 0 30px rgba(255, 255, 255, 0.4);
+            }
+            100% { 
+                opacity: 0.2;
+                box-shadow: 0 0 5px rgba(255, 255, 255, 0.4),
+                           0 0 10px rgba(255, 255, 255, 0.2),
+                           0 0 15px rgba(255, 255, 255, 0.1);
+            }
+        }
+
         .tabs {
             display: flex;
             gap: 20px;
@@ -103,7 +137,7 @@
         }
 
         .tab-btn.credits-btn {
-            background-color: #ff3333; /* Red color */
+            background-color: #ff3333;
         }
 
         .tab-btn.credits-btn:hover {
@@ -204,18 +238,50 @@
             width: 100%;
             max-width: 800px;
             animation: float 3s ease-in-out infinite;
+            transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+        }
+
+        .premium-section:hover {
+            background-color: #fff;
+            border-color: #fff;
+        }
+
+        .premium-section:hover h3 {
+            color: #000;
+            text-shadow: none;
+        }
+
+        .premium-section:hover ul {
+            color: #000;
+        }
+
+        .premium-section:hover li {
+            text-shadow: none;
+        }
+
+        .premium-section:hover li:before {
+            color: #000;
+            text-shadow: none;
+        }
+
+        .premium-section:hover .price {
+            color: #000;
+        }
+
+        .premium-section:hover .price-subtext {
+            color: #333;
+        }
+
+        .premium-section:hover .purchase-btn {
+            background-color: #ddd;
+            color: #000;
+            box-shadow: none;
         }
 
         @keyframes float {
-            0% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-            100% {
-                transform: translateY(0);
-            }
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
         }
 
         .premium-section h3 {
@@ -226,6 +292,7 @@
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.6), 
                         0 0 10px rgba(255, 255, 255, 0.4), 
                         0 0 15px rgba(255, 255, 255, 0.2);
+            transition: color 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
         }
 
         .premium-section ul {
@@ -233,6 +300,7 @@
             padding: 0;
             margin: 0 0 10px;
             color: #ccc;
+            transition: color 0.3s ease-in-out;
         }
 
         .premium-section li {
@@ -242,6 +310,7 @@
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.6), 
                         0 0 10px rgba(255, 255, 255, 0.4), 
                         0 0 15px rgba(255, 255, 255, 0.2);
+            transition: text-shadow 0.3s ease-in-out;
         }
 
         .premium-section li:before {
@@ -252,6 +321,7 @@
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.6), 
                         0 0 10px rgba(255, 255, 255, 0.4), 
                         0 0 15px rgba(255, 255, 255, 0.2);
+            transition: color 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
         }
 
         .premium-section .price {
@@ -262,6 +332,7 @@
             font-size: 1.2em;
             font-weight: bold;
             text-shadow: none;
+            transition: color 0.3s ease-in-out;
         }
 
         .premium-section .price-subtext {
@@ -269,6 +340,7 @@
             color: #666;
             display: block;
             text-shadow: none;
+            transition: color 0.3s ease-in-out;
         }
 
         .premium-section .purchase-btn {
@@ -281,7 +353,7 @@
             cursor: pointer;
             width: 100%;
             text-align: center;
-            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             box-shadow: none;
         }
 
@@ -345,7 +417,7 @@
     </style>
 </head>
 <body>
-    <div class="welcome-text" id="typewriter"></div>
+    <div class="welcome-text" id="typewriter"><span id="typewriter-text"></span><span class="typewriter-cursor"></span></div>
 
     <div class="tabs">
         <button class="tab-btn active" onclick="openTab('about')">About</button>
@@ -437,7 +509,7 @@
             event.currentTarget.classList.add("active");
         }
 
-        const typewriterElement = document.getElementById("typewriter");
+        const typewriterTextElement = document.getElementById("typewriter-text");
         const phrases = [
             "Powerful cheating tool",
             "Made with love",
@@ -457,7 +529,7 @@
         function type() {
             const currentPhrase = capitalizedPhrases[phraseIndex];
             if (!isDeleting) {
-                typewriterElement.textContent = currentPhrase.substring(0, charIndex);
+                typewriterTextElement.textContent = currentPhrase.substring(0, charIndex);
                 charIndex++;
                 if (charIndex > currentPhrase.length) {
                     isDeleting = true;
@@ -465,7 +537,7 @@
                     return;
                 }
             } else {
-                typewriterElement.textContent = currentPhrase.substring(0, charIndex);
+                typewriterTextElement.textContent = currentPhrase.substring(0, charIndex);
                 charIndex--;
                 if (charIndex < 0) {
                     isDeleting = false;
