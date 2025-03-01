@@ -9,6 +9,7 @@
             background: linear-gradient(to bottom, rgb(15, 15, 15), rgb(10, 10, 10));
             margin: 0;
             padding: 0;
+            padding-bottom: 60px; /* Add padding to ensure space for footer */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -414,9 +415,74 @@
         .hidden-audio {
             display: none;
         }
+
+        .footer-container {
+            margin-top: 20px; /* Space above the footer */
+            margin-left: 10px; /* Align slightly indented from the left edge */
+            width: 100%; /* Ensure it takes full width for alignment */
+            max-width: 600px; /* Match the width of tab-content */
+        }
+
+        .footer-label {
+            color: gray;
+            font-size: 0.9em;
+        }
+
+        /* Discord Button Styling */
+        .discord-btn {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background-color: #800080; /* Purple */
+            color: white;
+            padding: 8px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            box-shadow: none;
+            opacity: 1; /* Visible by default */
+        }
+
+        .discord-btn.hidden {
+            opacity: 0; /* Hidden when not at the top */
+            pointer-events: none; /* Prevent interaction when hidden */
+        }
+
+        .discord-btn:hover {
+            background-color: #800080;
+            box-shadow: 0 0 15px rgba(128, 0, 128, 0.8),
+                       0 0 30px rgba(128, 0, 128, 0.6),
+                       0 0 45px rgba(128, 0, 128, 0.4),
+                       inset 0 0 20px rgba(128, 0, 128, 0.5);
+        }
+
+        .discord-btn img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Fallback for Discord logo if image fails */
+        .discord-btn::before {
+            content: "💬"; /* Fallback Unicode emoji for chat/Discord */
+            font-size: 1.2em;
+        }
     </style>
 </head>
 <body>
+    <!-- Discord Button in Top-Left Corner -->
+    <a href="https://discord.gg/v5BmWt8tK3" target="_blank" class="discord-btn">
+        <span>Discord</span>
+        <!-- Replace the src with a valid Discord logo URL if you have one -->
+        <!-- Example placeholder: -->
+        <!-- <img src="https://path-to-discord-logo.png" alt="Discord Logo"> -->
+    </a>
+
     <div class="welcome-text" id="typewriter"><span id="typewriter-text"></span><span class="typewriter-cursor"></span></div>
 
     <div class="tabs">
@@ -489,11 +555,17 @@
         </div>
     </div>
 
+    <!-- Footer container with only the label -->
+    <div class="footer-container">
+        <span class="footer-label">© All rights reserved. The Seeker Team.</span>
+    </div>
+
     <audio class="hidden-audio" autoplay loop>
         <source src="path/to/serialkilla.mp3" type="audio/mpeg">
     </audio>
 
     <script>
+        // Existing tab and typewriter scripts
         function openTab(tabName) {
             const tabContents = document.getElementsByClassName("tab-content");
             for (let i = 0; i < tabContents.length; i++) {
@@ -550,6 +622,17 @@
         }
 
         type();
+
+        // Scroll detection for Discord button visibility
+        const discordBtn = document.querySelector('.discord-btn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY === 0) {
+                discordBtn.classList.remove('hidden'); // Show button at the top
+            } else {
+                discordBtn.classList.add('hidden'); // Hide button when scrolled down
+            }
+        });
     </script>
 </body>
 </html>
