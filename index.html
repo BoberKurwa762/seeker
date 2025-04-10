@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Come Back Soon</title>
+    <title>Come back Soon..</title>
     <style>
         * {
             margin: 0;
@@ -17,9 +17,18 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: #0a0a23; /* Dark background for neon contrast */
+            background: 
+                linear-gradient(45deg, #1a1a1a 25%, #333 25%, #333 50%, #1a1a1a 50%, #1a1a1a 75%, #333 75%, #333);
+            background-size: 60px 60px; /* Wavy pattern size */
+            animation: wave-bg 10s linear infinite; /* Wavy background animation */
             overflow: hidden;
             font-family: 'Arial Black', Arial, sans-serif; /* Bolder font for clarity */
+        }
+
+        /* Background wave animation */
+        @keyframes wave-bg {
+            0% { background-position: 0 0; }
+            100% { background-position: 60px 60px; }
         }
 
         /* Container for text */
@@ -34,13 +43,13 @@
             display: inline-block;
             position: relative;
             margin: 0; /* No extra space between lines */
-            background: linear-gradient(to right, #fff, #00f); /* White to blue gradient */
+            background: linear-gradient(to right, #fff, #f00); /* White to red gradient */
             -webkit-background-clip: text; /* Clip gradient to text */
             background-clip: text; /* Standard syntax */
             color: transparent; /* Make text transparent so gradient shows */
             text-shadow: 
-                0 0 2px #00f, 
-                0 0 5px #00f; /* Reduced glow for less blur */
+                0 0 5px #f00, 
+                0 0 10px #f00; /* Reduced glow with red */
             -webkit-font-smoothing: antialiased; /* Sharper text rendering */
             -moz-osx-font-smoothing: grayscale; /* Sharper text rendering */
         }
@@ -54,14 +63,14 @@
             font-size: 2.8em; /* Slightly smaller but still big */
         }
 
-        /* Wave effect */
+        /* Wave effect for text */
         .text-line span {
             display: inline-block;
             animation: wave 1.5s infinite;
             transform-origin: bottom;
         }
 
-        /* Wave animation keyframes */
+        /* Wave animation keyframes for text */
         @keyframes wave {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-15px); } /* Bigger wave for bigger text */
@@ -97,14 +106,13 @@
 <body>
     <div class="text-container">
         <div class="text-line" id="line1">
-            <span>I</span><span>m</span><span>p</span><span>r</span><span>o</span><span>v</span><span>i</span><span>n</span><span>g</span><span>.</span><span>.</span>
+            <span>U</span><span>n</span><span>d</span><span>e</span><span>r</span>
+            <span>C</span><span>o</span><span>n</span><span>s</span><span>t</span><span>r</span><span>u</span><span>c</span><span>t</span><span>i</span><span>o</span><span>n</span>
         </div>
         <div class="text-line" id="line2">
             <span>C</span><span>o</span><span>m</span><span>e</span>
             <span>b</span><span>a</span><span>c</span><span>k</span>
-            <span>i</span><span>n</span>
-            <span>2</span>
-            <span>w</span><span>e</span><span>e</span><span>k</span><span>s</span><span>.</span>
+            <span>s</span><span>o</span><span>o</span><span>n</span>
         </div>
     </div>
 </body>
