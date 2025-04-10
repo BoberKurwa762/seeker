@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neon Wave Text</title>
+    <title>Come Back Soon</title>
     <style>
         * {
             margin: 0;
@@ -19,7 +19,7 @@
             align-items: center;
             background: #0a0a23; /* Dark background for neon contrast */
             overflow: hidden;
-            font-family: Arial, sans-serif;
+            font-family: 'Arial Black', Arial, sans-serif; /* Bolder font for clarity */
         }
 
         /* Container for text */
@@ -30,6 +30,7 @@
         /* Individual text lines */
         .text-line {
             font-size: 3.5em; /* Bigger text */
+            font-weight: 900; /* Extra bold for sharpness */
             display: inline-block;
             position: relative;
             margin: 0; /* No extra space between lines */
@@ -38,9 +39,11 @@
             background-clip: text; /* Standard syntax */
             color: transparent; /* Make text transparent so gradient shows */
             text-shadow: 
+                0 0 5px #00f, 
                 0 0 10px #00f, 
-                0 0 20px #00f, 
-                0 0 30px #00f; /* Neon blue glow */
+                0 0 15px #00f; /* Reduced glow for less blur */
+            -webkit-font-smoothing: antialiased; /* Sharper text rendering */
+            -moz-osx-font-smoothing: grayscale; /* Sharper text rendering */
         }
 
         /* Stack the lines vertically */
