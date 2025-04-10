@@ -25,18 +25,31 @@
         /* Container for text */
         .text-container {
             text-align: center;
-            color: #00f; /* Neon blue */
-            text-shadow: 
-                0 0 10px #00f, 
-                0 0 20px #00f, 
-                0 0 30px #00f; /* Glow effect */
         }
 
         /* Individual text lines */
         .text-line {
-            font-size: 2em; /* Adjust size as needed */
+            font-size: 3.5em; /* Bigger text */
             display: inline-block;
             position: relative;
+            margin: 0; /* No extra space between lines */
+            background: linear-gradient(to right, #fff, #00f); /* White to blue gradient */
+            -webkit-background-clip: text; /* Clip gradient to text */
+            background-clip: text; /* Standard syntax */
+            color: transparent; /* Make text transparent so gradient shows */
+            text-shadow: 
+                0 0 10px #00f, 
+                0 0 20px #00f, 
+                0 0 30px #00f; /* Neon blue glow */
+        }
+
+        /* Stack the lines vertically */
+        #line1 {
+            margin-bottom: 10px; /* Small gap between lines */
+        }
+
+        #line2 {
+            font-size: 2.8em; /* Slightly smaller but still big */
         }
 
         /* Wave effect */
@@ -46,19 +59,10 @@
             transform-origin: bottom;
         }
 
-        /* Stack the lines vertically */
-        #line1 {
-            margin-bottom: 10px; /* Space between lines */
-        }
-
-        #line2 {
-            font-size: 1.5em; /* Slightly smaller for hierarchy */
-        }
-
         /* Wave animation keyframes */
         @keyframes wave {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-15px); } /* Bigger wave for bigger text */
         }
 
         /* Stagger the wave effect for each letter */
@@ -77,6 +81,15 @@
         .text-line span:nth-child(13) { animation-delay: 1.2s; }
         .text-line span:nth-child(14) { animation-delay: 1.3s; }
         .text-line span:nth-child(15) { animation-delay: 1.4s; }
+        .text-line span:nth-child(16) { animation-delay: 1.5s; }
+        .text-line span:nth-child(17) { animation-delay: 1.6s; }
+        .text-line span:nth-child(18) { animation-delay: 1.7s; }
+        .text-line span:nth-child(19) { animation-delay: 1.8s; }
+        .text-line span:nth-child(20) { animation-delay: 1.9s; }
+        .text-line span:nth-child(21) { animation-delay: 2.0s; }
+        .text-line span:nth-child(22) { animation-delay: 2.1s; }
+        .text-line span:nth-child(23) { animation-delay: 2.2s; }
+        .text-line span:nth-child(24) { animation-delay: 2.3s; }
     </style>
 </head>
 <body>
