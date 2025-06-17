@@ -94,6 +94,24 @@
             display: flex;
         }
 
+        /* Wing Styles */
+        .wing {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            z-index: 2;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 100, 0.6)); /* Yellowish glow */
+        }
+
+        .wing-left {
+            left: -170px;
+            transform: scaleX(-1); /* Flip for left wing */
+        }
+
+        .wing-right {
+            right: -170px;
+        }
+
         /* Home Page Styles */
         .label {
             color: #fff;
@@ -101,6 +119,7 @@
             text-shadow: 0 0 10px #fff, 0 0 20px #fff;
             z-index: 2;
             cursor: pointer;
+            position: relative;
         }
 
         .label:hover {
@@ -154,6 +173,7 @@
             z-index: 2;
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
         }
 
         .panel:hover {
@@ -179,7 +199,7 @@
             cursor: pointer;
             text-shadow: 0 0 5px #fff;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(255, 255, 255, 0.3);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0,0.2, 1);
             font-family: 'Orbitron', sans-serif;
             display: flex;
             align-items: center;
@@ -211,6 +231,7 @@
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             color: #fff;
+            position: relative;
         }
 
         .about-panel:hover, .credits-panel:hover {
@@ -269,7 +290,10 @@
     <!-- Home Page -->
     <div id="home-page" class="page active">
         <canvas id="rainCanvas"></canvas>
-        <div class="label">Cauldron Executor</div>
+        <div class="label">Holy Executor
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/angel-wings.png" alt="Left Wing" class="wing wing-left">
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/angel-wings.png" alt="Right Wing" class="wing wing-right">
+        </div>
         <button class="download-btn" onclick="showPage('download-page')">
             <img src="https://img.icons8.com/ios-filled/50/ffffff/source-code.png" alt="Source Code Icon">
             Download
@@ -280,7 +304,10 @@
     <div id="download-page" class="page">
         <canvas id="rainCanvasDownload"></canvas>
         <div class="panel">
-            <div class="download-label">Download Cauldron</div>
+            <div class="download-label">Download Holy
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/angel-wings.png" alt="Left Wing" class="wing wing-left">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/angel-wings.png" alt="Right Wing" class="wing wing-right">
+            </div>
             <button class="panel-btn" onclick="startLoading()">
                 <img src="https://img.icons8.com/ios-filled/50/ffffff/source-code.png" alt="Source Code Icon">
                 Download Now
@@ -292,11 +319,14 @@
     <div id="about-page" class="page">
         <canvas id="rainCanvasAbout"></canvas>
         <div class="about-panel">
-            <h2>About Cauldron Executor</h2>
+            <h2>About Holy Executor
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/angel-wings.png" alt="Left Wing" class="wing wing-left">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/angel-wings.png" alt="Right Wing" class="wing wing-right">
+            </h2>
             <p>
-                Cauldron Executor is a powerful tool designed to streamline and enhance your development workflow. 
+                Holy Executor is a powerful tool designed to streamline and enhance your development workflow. 
                 Built by a dedicated team of innovators, our mission is to empower developers with seamless execution 
-                capabilities and robust performance. The team behind Cauldron Executor combines expertise in software 
+                capabilities and robust performance. The team behind Holy Executor combines expertise in software 
                 engineering and a passion for creating cutting-edge solutions that meet the needs of modern developers.
             </p>
         </div>
@@ -306,7 +336,10 @@
     <div id="credits-page" class="page">
         <canvas id="rainCanvasCredits"></canvas>
         <div class="credits-panel">
-            <h2>Credits</h2>
+            <h2>Credits
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/angel-wings.png" alt="Left Wing" class="wing wing-left">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/angel-wings.png" alt="Right Wing" class="wing wing-right">
+            </h2>
             <p>Owners: cat.dev and Draxxil</p>
         </div>
     </div>
@@ -357,17 +390,17 @@
                 }
             }
 
-            function animate() {
+            function horribleness() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 drops.forEach(drop => {
                     drop.update();
                     drop.draw();
                 });
-                requestAnimationFrame(animate);
+                requestAnimationFrame(horribleness);
             }
 
             init();
-            animate();
+            horribleness();
 
             window.addEventListener('resize', () => {
                 canvas.width = window.innerWidth;
@@ -417,4 +450,3 @@
     </script>
 </body>
 </html>
-New code. Change the Cauldron Executor to Holy Executor, change all of "Cauldron" to Holy and add a yellowish glowing angel wings to the sides of the texts and make them 170 to the left and right
