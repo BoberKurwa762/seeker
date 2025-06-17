@@ -44,6 +44,7 @@
             cursor: pointer;
             position: relative;
             transition: color 0.3s ease;
+            text-shadow: 0 0 10px rgba(255, 255, 100, 0.97), 0 0 20px rgba(255, 255, 100, 0.97); /* Yellow glow */
         }
 
         .tab:hover::after {
@@ -94,29 +95,11 @@
             display: flex;
         }
 
-        /* Wing Styles */
-        .wing {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            z-index: 2;
-            filter: drop-shadow(0 0 10px rgba(255, 255, 100, 0.6)); /* Yellowish glow */
-        }
-
-        .wing-left {
-            left: -170px;
-            transform: scaleX(-1); /* Flip for left wing */
-        }
-
-        .wing-right {
-            right: -170px;
-        }
-
         /* Home Page Styles */
         .label {
             color: #fff;
             font-size: 3rem;
-            text-shadow: 0 0 10px #fff, 0 0 20px #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 100, 0.97), 0 0 20px rgba(255, 255, 100, 0.97); /* Yellow glow */
             z-index: 2;
             cursor: pointer;
             position: relative;
@@ -141,7 +124,7 @@
             border-radius: 25px;
             cursor: pointer;
             z-index: 2;
-            text-shadow: 0 0 5px #fff;
+            text-shadow: 0 0 5px rgba(255, 255, 100, 0.97); /* Yellow glow */
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(255, 255, 255, 0.3);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             font-family: 'Orbitron', sans-serif;
@@ -185,7 +168,7 @@
         .download-label {
             color: #fff;
             font-size: 2rem;
-            text-shadow: 0 0 10px #fff, 0 0 20px #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 100, 0.97), 0 0 20px rgba(255, 255, 100, 0.97); /* Yellow glow */
             margin-bottom: 20px;
         }
 
@@ -197,9 +180,9 @@
             border: 2px solid #fff;
             border-radius: 20px;
             cursor: pointer;
-            text-shadow: 0 0 5px #fff;
+            text-shadow: 0 0 5px rgba(255, 255, 100, 0.97); /* Yellow glow */
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(255, 255, 255, 0.3);
-            transition: all 0.4s cubic-bezier(0.4, 0,0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             font-family: 'Orbitron', sans-serif;
             display: flex;
             align-items: center;
@@ -242,13 +225,14 @@
 
         .about-panel h2, .credits-panel h2 {
             font-size: 2rem;
-            text-shadow: 0 0 10px #fff, 0 0 20px #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 100, 0.97), 0 0 20px rgba(255, 255, 100, 0.97); /* Yellow glow */
             margin-bottom: 20px;
         }
 
         .about-panel p, .credits-panel p {
             font-size: 1.2rem;
             line-height: 1.6;
+            text-shadow: 0 0 5px rgba(255, 255, 100, 0.97); /* Yellow glow */
         }
 
         /* Loading Bar Styles */
@@ -260,7 +244,7 @@
             width: 60px;
             height: 60px;
             border: 5px solid transparent;
-            border-top-color: #fff;
+            border-top-color #fff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             z-index: 4;
@@ -290,10 +274,7 @@
     <!-- Home Page -->
     <div id="home-page" class="page active">
         <canvas id="rainCanvas"></canvas>
-        <div class="label">Holy Executor
-            <img src="https://img.icons8.com/ios-filled/50/ffffff/angel-wings.png" alt="Left Wing" class="wing wing-left">
-            <img src="https://img.icons8.com/ios-filled/50/ffffff/angel-wings.png" alt="Right Wing" class="wing wing-right">
-        </div>
+        <div class="label">Holy Executor</div>
         <button class="download-btn" onclick="showPage('download-page')">
             <img src="https://img.icons8.com/ios-filled/50/ffffff/source-code.png" alt="Source Code Icon">
             Download
@@ -304,10 +285,7 @@
     <div id="download-page" class="page">
         <canvas id="rainCanvasDownload"></canvas>
         <div class="panel">
-            <div class="download-label">Download Holy
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/angel-wings.png" alt="Left Wing" class="wing wing-left">
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/angel-wings.png" alt="Right Wing" class="wing wing-right">
-            </div>
+            <div class="download-label">Download Holy</div>
             <button class="panel-btn" onclick="startLoading()">
                 <img src="https://img.icons8.com/ios-filled/50/ffffff/source-code.png" alt="Source Code Icon">
                 Download Now
@@ -319,15 +297,10 @@
     <div id="about-page" class="page">
         <canvas id="rainCanvasAbout"></canvas>
         <div class="about-panel">
-            <h2>About Holy Executor
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/angel-wings.png" alt="Left Wing" class="wing wing-left">
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/angel-wings.png" alt="Right Wing" class="wing wing-right">
-            </h2>
+            <h2>About Holy Executor</h2>
             <p>
-                Holy Executor is a powerful tool designed to streamline and enhance your development workflow. 
-                Built by a dedicated team of innovators, our mission is to empower developers with seamless execution 
-                capabilities and robust performance. The team behind Holy Executor combines expertise in software 
-                engineering and a passion for creating cutting-edge solutions that meet the needs of modern developers.
+                Holy Executor is a powerful Executor to help you cheat in games easily. No recorded bans for the past 2 months. Updates Quickly. Enjoy our Executor. Only 2$ for a weekly key!! 5$ for 1 Month!! 
+                Go buy your key and maybe win a new one.
             </p>
         </div>
     </div>
@@ -336,11 +309,12 @@
     <div id="credits-page" class="page">
         <canvas id="rainCanvasCredits"></canvas>
         <div class="credits-panel">
-            <h2>Credits
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/angel-wings.png" alt="Left Wing" class="wing wing-left">
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/angel-wings.png" alt="Right Wing" class="wing wing-right">
-            </h2>
+            <h2>Credits</h2>
             <p>Owners: cat.dev and Draxxil</p>
+            <p>
+                Draxxil is the only one owning the executor Right Now. Please turn to Draxxil for help/questions for now. 
+                Looking for administrators for our discord server. Please, tell Draxxil on Discord if u want to join our adminmagic                admin. program. Thank you!
+            </p>
         </div>
     </div>
 
@@ -390,17 +364,17 @@
                 }
             }
 
-            function horribleness() {
+            function animate() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 drops.forEach(drop => {
                     drop.update();
                     drop.draw();
                 });
-                requestAnimationFrame(horribleness);
+                requestAnimationFrame(animate);
             }
 
             init();
-            horribleness();
+            animate();
 
             window.addEventListener('resize', () => {
                 canvas.width = window.innerWidth;
