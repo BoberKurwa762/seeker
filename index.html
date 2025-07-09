@@ -3,464 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Holy Executor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <title>Holy Keys Software Market</title>
     <style>
         body {
+            background-color: #1a1a1a; /* Matt black background */
+            color: #e0e0e0; /* Light text for contrast */
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             margin: 0;
-            overflow: hidden;
-            background: #1a1a1a; /* Matte black background */
-            height: 100vh;
-            font-family: 'Orbitron', sans-serif;
-            transition: filter 0.5s ease;
-        }
-
-        body.blurred {
-            filter: blur(5px);
-        }
-
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-
-        /* Tab List Styles */
-        .tab-list {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 20px;
-            z-index: 3;
-        }
-
-        .tab {
-            color: #fff;
-            font-size: 1.2rem;
-            padding: 10px 15px;
-            cursor: pointer;
-            position: relative;
-            transition: color 0.3s ease;
-            text-shadow: 0 0 10px rgba(255, 255, 100, 0.97), 0 0 20px rgba(255, 255, 100, 0.97); /* Yellow glow */
-        }
-
-        .tab:hover::after {
-            content: '';
-            position: absolute;
-            bottom: -2px; /* Underline close to text */
-            left: 50%;
-            width: 0;
-            height: 3px;
-            background: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 5px #fff;
-            animation: growUnderline 0.3s forwards;
-        }
-
-        @keyframes growUnderline {
-            0% { width: 0; left: 50%; }
-            100% { width: 100%; left: 0; }
-        }
-
-        .tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px; /* Underline close to text */
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 5px #fff;
-        }
-
-        /* Page Styles */
-        .page {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            width: 100%;
-            opacity: 0;
-            transition: opacity 0.8s ease-in-out;
-        }
-
-        .page.active {
-            opacity: 1;
-            display: flex;
-        }
-
-        /* Home Page Styles */
-        .label {
-            color: #fff;
-            font-size: 3rem;
-            text-shadow: 0 0 10px rgba(255, 255, 100, 0.97), 0 0 20px rgba(255, 255, 100, 0.97); /* Yellow glow */
-            z-index: 2;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .label:hover {
-            animation: bounce 0.8s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .home-action-btn {
-            margin-top: 20px;
-            padding: 15px 40px;
-            font-size: 1.2rem;
-            color: #fff;
-            background: linear-gradient(45deg, #2a2a2a, #111);
-            border: 2px solid #ffcc00; /* Yellow border for contrast */
-            border-radius: 30px;
-            cursor: pointer;
-            z-index: 2;
-            text-shadow: 0 0 5px rgba(255, 255, 100, 0.97); /* Yellow glow */
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(255, 255, 255, 0.2);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            font-family: 'Orbitron', sans-serif;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .home-action-btn:hover {
-            background: linear-gradient(45deg, #3a3a3a, #222);
-            box-shadow: 0 0 25px rgba(0, 0, 0, 0.9), inset 0 0 15px rgba(255, 255, 255, 0.3);
-            transform: scale(1.1) rotate(3deg);
-        }
-
-        .home-action-btn img {
-            width: 24px;
-            height: 24px;
-        }
-
-        /* Download and Get Key Page Styles */
-        .panel {
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 40px;
-            width: 400px;
-            text-align: center;
-            z-index: 2;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            margin: 20px;
-        }
-
-        .panel:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
-            background: rgba(0, 0, 0, 0.6);
-        }
-
-        .download-label {
-            color: #fff;
-            font-size: 1.5rem;
-            text-shadow: 0 0 10px rgba(255, 255, 100, 0.97), 0 0 20px rgba(255, 255, 100, 0.97); /* Yellow glow */
-            margin-bottom: 20px;
-        }
-
-        .panel-btn {
-            padding: 12px 25px;
-            font-size: 1rem;
-            color: #fff;
-            background: transparent;
-            border: 2px solid #fff;
-            border-radius: 20px;
-            cursor: pointer;
-            text-shadow: 0 0 5px rgba(255, 255, 100, 0.97); /* Yellow glow */
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(255, 255, 255, 0.3);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            font-family: 'Orbitron', sans-serif;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin: 10px;
-        }
-
-        .panel-btn:hover {
-            background: linear-gradient(45deg, #444, #111);
-            box-shadow: 0 0 25px rgba(0, 0, 0, 0.9), inset 0 0 15px rgba(255, 255, 255, 0.5);
-            transform: scale(1.1) rotate(2deg);
-        }
-
-        .panel-btn img {
-            width: 20px;
-            height: 20px;
-        }
-
-        .dismiss-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-size: 1.2rem;
-            cursor: pointer;
-            text-shadow: 0 0 5px rgba(255, 255, 100, 0.97);
-        }
-
-        .dismiss-btn:hover {
-            color: #ff5555;
-            text-shadow: 0 0 5px rgba(255, 85, 85, 0.97);
-        }
-
-        /* About and Credits Page Styles */
-        .about-panel, .credits-panel {
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 40px;
-            width: 600px;
-            text-align: center;
-            z-index: 2;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            color: #fff;
-            position: relative;
-        }
-
-        .about-panel:hover, .credits-panel:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
-            background: rgba(0, 0, 0, 0.6);
-        }
-
-        .about-panel h2, .credits-panel h2 {
-            font-size: 2rem;
-            text-shadow: 0 0 10px rgba(255, 255, 100, 0.97), 0 0 20px rgba(255, 255, 100, 0.97); /* Yellow glow */
-            margin-bottom: 20px;
-        }
-
-        .about-panel p, .credits-panel p {
-            font-size: 1.2rem;
+            padding: 0;
             line-height: 1.6;
-            text-shadow: 0 0 5px rgba(255, 255, 100, 0.97); /* Yellow glow */
         }
-
-        /* Loading Bar Styles */
-        .loader {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            border: 5px solid transparent;
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            z-index: 4;
-            display: none;
-            box-shadow: 0 0 10px #fff;
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
         }
-
-        .loader.active {
-           -Centering: block;
+        .sidebar {
+            background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%); /* Smooth gray gradient */
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
         }
-
-        @keyframes spin {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        .sidebar:hover {
+            transform: translateY(-5px);
+        }
+        .header {
+            text-align: center;
+            padding: 50px 0;
+            background: linear-gradient(90deg, #2a2a2a 0%, #1a1a1a 50%, #2a2a2a 100%); /* Smoother gradient */
+            border-bottom: 1px solid #333;
+        }
+        .header h1 {
+            font-size: 2.8em;
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.8;
+        }
+        .section {
+            margin: 25px 0;
+            padding: 25px;
+            background-color: #222222; /* Slightly lighter than matt black */
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        .section:hover {
+            transform: translateY(-5px);
+        }
+        .section h2 {
+            font-size: 1.9em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .section ul li {
+            padding: 12px 0;
+            font-size: 1.1em;
+        }
+        .footer {
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%); /* Smooth footer gradient */
+            color: #e0e0e0;
+            width: 100%;
+            border-top: 1px solid #333;
+        }
+        a {
+            color: #1e90ff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #63b3ff;
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2em;
+            }
+            .section {
+                padding: 15px;
+            }
         }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Tab List -->
-    <div class="tab-list">
-        <div class="tab active" onclick="showPage('home-page')">Home</div>
-        <div class="tab" onclick="showPage('download-page')">Download</div>
-        <div class="tab" onclick="showPage('get-keys-page')">Get Key</div>
-        <div class="tab" onclick="showPage('about-page')">About</div>
-        <div class="tab" onclick="showPage('credits-page')">Credits</div>
+    <div class="header">
+        <h1>Holy Keys Official Seller</h1>
+        <p>Holy Keys Official Site</p>
     </div>
 
-    <!-- Home Page -->
-    <div id="home-page" class="page active">
-        <canvas id="rainCanvas"></canvas>
-        <div class="label">Holy Executor</div>
-        <button class="home-action-btn" onclick="showPage('download-page')">
-            <img src="https://img.icons8.com/ios-filled/50/ffffff/code.png" alt="Code Icon">
-            Get Holy Now
-        </button>
-    </div>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Quick Links</h2>
+            <ul>
+                <li><a href="https://discord.gg/bbrwdhBpjh">FAQ</a></li>
+                <li><a href="https://discord.gg/bbrwdhBpjh">About Us</a></li>
+                <li><a href="https://discord.gg/bbrwdhBpjh">Join Our Discord</a></li>
+            </ul>
+        </div>
 
-    <!-- Download Page -->
-    <div id="download-page" class="page">
-        <canvas id="rainCanvasDownload"></canvas>
-        <div class="panel">
-            <div class="download-label">Download Holy</div>
-            <button class="panel-btn" onclick="startLoading()">
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/source-code.png" alt="Source Code Icon">
-                Download Now
-            </button>
+        <div class="section" id="best-sellers">
+            <h2>Best Sellers</h2>
+            <ul>
+                <li>Holy Keys Lifetime - $6.00</li>
+                <li>Holy Keys Weekly - $1.00</li>
+            </ul>
+            <p>Check out our 4th July Sale for exclusive discounts!</p>
+        </div>
+
+        <div class="section" id="reviews">
+            <h2>Customer Reviews</h2>
+            <p>"None Yet." - <strong>No Reviews</strong></p>
+        </div>
+
+        <div class="section" id="faq">
+            <h2>Frequently Asked Questions</h2>
+            <ul>
+                <li><strong>Is Holy Keys safe and reliable?</strong> Yes, we are trusted by thousands of customers!</li>
+                <li><strong>How fast will I receive my key?</strong> Most keys are delivered instantly after purchase.</li>
+                <li><strong>How can I receive my key?</strong> You need to add draxxil_music on Discord and send him a screenshot of the proof that you bought Holy Keys!</li>
+                <li><strong>Do you offer refunds?</strong> Yes, we have a satisfaction guarantee policy.</li>
+            </ul>
+        </div>
+
+        <div class="section" id="about">
+            <h2>About Us</h2>
+            <p>Holy Keys is your go-to marketplace for affordable and reliable software licenses. We pride ourselves on fast delivery, excellent customer support, and a trustworthy platform vouched for by users like <strong>SmokedOutTillIPassOut</strong> and <strong>ByteLzitt</strong>.</p>
         </div>
     </div>
 
-    <!-- Get Key Page -->
-    <div id="get-keys-page" class="page">
-        <canvas id="rainCanvasKeys"></canvas>
-        <div class="panel">
-            <div class="download-label">Buy Weekly Key for Holy Executor for only 2$!</div>
-            <button class="panel-btn" onclick="startLoading()">
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/shopping-cart.png" alt="Cart Icon">
-                Buy Key
-            </button>
-            <button class="dismiss-btn" onclick="showPage('home-page')">X</button>
-        </div>
-        <div class="panel">
-            <div class="download-label">Buy our lifetime Holy key!</div>
-            <button class="panel-btn" onclick="startLoading()">
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/shopping-cart.png" alt="Cart Icon">
-                Buy Key
-            </button>
-        </div>
+    <div class="footer">
+        <p>© 2025 Holy Keys. All rights reserved.</p>
+        <p><a href="https://discord.gg/bbrwdhBpjh">FAQ</a> | <a href="https://discord.gg/bbrwdhBpjh">About Us</a> | <a href="https://discord.gg/bbrwdhBpjh">Discord</a></p>
     </div>
-
-    <!-- About Page -->
-    <div id="about-page" class="page">
-        <canvas id="rainCanvasAbout"></canvas>
-        <div class="about-panel">
-            <h2>About Holy Executor</h2>
-            <p>
-                Holy Executor is a powerful Executor to help you cheat in games easily. No recorded bans for the past 2 months. Updates Quickly. Enjoy our Executor. Only 2$ for a weekly key!! 5$ for 1 Month!! 
-                Go buy your key and maybe win a new one.
-            </p>
-        </div>
-    </div>
-
-    <!-- Credits Page -->
-    <div id="credits-page" class="page">
-        <canvas id="rainCanvasCredits"></canvas>
-        <div class="credits-panel">
-            <h2>Credits</h2>
-            <p>Owners: cat.dev and Draxxil</p>
-            <p>
-                Draxxil is the only one owning the executor Right Now. Please turn to Draxxil for help/questions for now. 
-                Looking for administrators for our discord server. Please, tell Draxxil on Discord if u want to join our adminmagic admin. program. Thank you!
-            </p>
-        </div>
-    </div>
-
-    <!-- Loading Bar -->
-    <div class="loader" id="loader"></div>
-
-    <script>
-        // Rain effect for all pages
-        function createRain(canvasId) {
-            const canvas = document.getElementById(canvasId);
-            const ctx = canvas.getContext('2d');
-
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            const drops = [];
-
-            class RainDrop {
-                constructor() {
-                    this.x = Math.random() * canvas.width;
-                    this.y = Math.random() * canvas.height;
-                    this.length = Math.random() * 20 + 10;
-                    this.speed = Math.random() * 3 + 2;
-                }
-
-                update() {
-                    this.y += this.speed;
-                    if (this.y > canvas.height) {
-                        this.y = 0;
-                        this.x = Math.random() * canvas.width;
-                    }
-                }
-
-                draw() {
-                    ctx.beginPath();
-                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
-                    ctx.lineWidth = 1;
-                    ctx.moveTo(this.x, this.y);
-                    ctx.lineTo(this.x, this.y + this.length);
-                    ctx.stroke();
-                }
-            }
-
-            function init() {
-                for (let i = 0; i < 100; i++) {
-                    drops.push(new RainDrop());
-                }
-            }
-
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                drops.forEach(drop => {
-                    drop.update();
-                    drop.draw();
-                });
-                requestAnimationFrame(animate);
-            }
-
-            init();
-            animate();
-
-            window.addEventListener('resize', () => {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            });
-        }
-
-        // Initialize rain for all pages
-        createRain('rainCanvas');
-        createRain('rainCanvasDownload');
-        createRain('rainCanvasKeys');
-        createRain('rainCanvasAbout');
-        createRain('rainCanvasCredits');
-
-        // Page navigation
-        function showPage(pageId) {
-            // Hide all pages
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-
-            // Deactivate all tabs
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-
-            // Show selected page
-            const selectedPage = document.getElementById(pageId);
-            selectedPage.classList.add('active');
-
-            // Activate corresponding tab
-            const tab = document.querySelector(`.tab[onclick="showPage('${pageId}')"]`);
-            tab.classList.add('active');
-        }
-
-        // Loading effect for Buy Key and Download Now buttons
-        function startLoading() {
-            // Blur the page and show loader
-            document.body.classList.add('blurred');
-            document.getElementById('loader').classList.add('active');
-
-            // Wait 3 seconds, then unblur and hide loader
-            setTimeout(() => {
-                document.body.classList.remove('blurred');
-                document.getElementById('loader').classList.remove('active');
-            }, 3000);
-        }
-    </script>
 </body>
 </html>
