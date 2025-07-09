@@ -6,8 +6,8 @@
     <title>Holy Executor Official</title>
     <style>
         body {
-            background-color: #1a1a1a; /* Matt black background */
-            color: #e0e0e0; /* Light text for contrast */
+            background-color: #1a1a1a;
+            color: #e0e0e0;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             margin: 0;
             padding: 0;
@@ -18,11 +18,9 @@
             max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
-            position: relative;
-            z-index: 1;
         }
         .sidebar {
-            background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%); /* Smooth gray gradient */
+            background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
             padding: 20px;
             border-radius: 12px;
             margin: 15px;
@@ -35,7 +33,7 @@
         .header {
             text-align: center;
             padding: 50px 0;
-            background: linear-gradient(90deg, #2a2a2a 0%, #1a1a1a 50%, #2a2a2a 100%); /* Smoother gradient */
+            background: linear-gradient(90deg, #2a2a2a 0%, #1a1a1a 50%, #2a2a2a 100%);
             border-bottom: 1px solid #333;
         }
         .header h1 {
@@ -51,7 +49,7 @@
         .section {
             margin: 25px 0;
             padding: 25px;
-            background-color: #222222; /* Slightly lighter than matt black */
+            background-color: #222222;
             border-radius: 12px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease;
@@ -75,7 +73,7 @@
         .footer {
             text-align: center;
             padding: 25px;
-            background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%); /* Smooth footer gradient */
+            background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
             color: #e0e0e0;
             width: 100%;
             border-top: 1px solid #333;
@@ -89,47 +87,84 @@
             color: #63b3ff;
             text-decoration: underline;
         }
-        .download-button {
-            background-color: rgb(30, 30, 30);
-            color: #e0e0e0;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .download-button:hover {
-            background-color: rgb(50, 50, 50);
-        }
-        .overlay {
-            display: none;
+        .download-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.7);
-            z-index: 2;
+            backdrop-filter: blur(5px);
+            display: none;
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            z-index: 1000;
             animation: fadeInOut 5s ease-in-out;
         }
-        .overlay.active {
-            display: flex;
-        }
-        .overlay-text {
+        .download-overlay p {
             font-size: 1.5em;
-            font-weight: 600;
-            margin-bottom: 20px;
+            margin: 10px 0;
         }
-        .not-released-text {
-            display: none;
+        .download-overlay .not-released {
             color: #ff0000;
-            font-size: 1.3em;
-            font-weight: 600;
-            animation: showNotReleased 0.5s ease-in 2s forwards;
+            animation: fadeInDelayed 5s ease-in-out;
+            animation-delay: 2s;
+        }
+        .download-button {
+            background-color: rgb(30, 30, 30);
+            color: #e0e0e0;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+        .download-button:hover {
+            background-color: rgb(50, 50, 50);
+        }
+        .coupon-input {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background-color: #2a2a2a;
+            color: #e0e0e0;
+            width: 200px;
+            margin-right: 10px;
+        }
+        .apply-coupon {
+            background-color: rgb(25, 25, 25);
+            color: #e0e0e0;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+        .apply-coupon:hover {
+            background-color: rgb(45, 45, 45);
+        }
+        .coupon-message, .coupon-success, .coupon-discount, .coupon-error {
+            display: none;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+        .coupon-message {
+            animation: fadeInOut 3s ease-in-out;
+        }
+        .coupon-success {
+            color: #00ff00;
+            animation: fadeInOut 2s ease-in-out;
+        }
+        .coupon-discount {
+            animation: fadeInOut 2s ease-in-out;
+        }
+        .coupon-error {
+            color: #ff0000;
+            animation: fadeInOut 2s ease-in-out;
         }
         @keyframes fadeInOut {
             0% { opacity: 0; }
@@ -137,13 +172,12 @@
             90% { opacity: 1; }
             100% { opacity: 0; }
         }
-        @keyframes showNotReleased {
+        @keyframes fadeInDelayed {
             0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-        .blur {
-            filter: blur(4px);
-            transition: filter 0.5s ease;
+            40% { opacity: 0; }
+            50% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
         }
         @media (max-width: 768px) {
             .header h1 {
@@ -151,12 +185,6 @@
             }
             .section {
                 padding: 15px;
-            }
-            .overlay-text {
-                font-size: 1.2em;
-            }
-            .not-released-text {
-                font-size: 1.1em;
             }
         }
     </style>
@@ -175,7 +203,13 @@
                 <li><a href="https://discord.gg/bbrwdhBpjh">FAQ</a></li>
                 <li><a href="https://discord.gg/bbrwdhBpjh">About Us</a></li>
                 <li><a href="https://discord.gg/bbrwdhBpjh">Join Our Discord</a></li>
+                <li><a href="#buy-key">Buy Key</a></li>
             </ul>
+        </div>
+
+        <div class="section" id="download">
+            <h2>Download Holy Executor</h2>
+            <button class="download-button" onclick="showDownloadOverlay()">Download</button>
         </div>
 
         <div class="section" id="best-sellers">
@@ -187,9 +221,20 @@
             <p>Check out our 4th July Sale for exclusive discounts!</p>
         </div>
 
-        <div class="section" id="download">
-            <h2>Download Holy Executor</h2>
-            <button class="download-button" onclick="triggerOverlay()">Download</button>
+        <div class="section" id="buy-key">
+            <h2>Buy Key</h2>
+            <ul>
+                <li>Holy Keys Lifetime - $6.00</li>
+                <li>Holy Keys Weekly - $1.00</li>
+            </ul>
+            <div>
+                <input type="text" class="coupon-input" id="couponCode" placeholder="ENTER DISCOUNT CODE">
+                <button class="apply-coupon" onclick="applyCoupon()">⭐Apply Coupon⭐</button>
+            </div>
+            <p class="coupon-message" id="couponMessage">Checking Discount Code...</p>
+            <p class="coupon-success" id="couponSuccess">Discount Code Applied ✅</p>
+            <p class="coupon-discount" id="couponDiscount">🥳🎉 Now you have got a 1.5% off discount on your purchase!🥳🎉</p>
+            <p class="coupon-error" id="couponError">Please enter a Valid coupon code and try again!</p>
         </div>
 
         <div class="section" id="reviews">
@@ -213,42 +258,52 @@
         </div>
     </div>
 
-    <div class="footer">
-        <p>© 2025 Holy Keys. All rights reserved.</p>
-        <p><a href="https://discord.gg/bbrwdhBpjh">FAQ</a> | <a href="https://discord.gg/bbrwdhBpjh">About Us</a> | <a href="https://discord.gg/bbrwdhBpjh">Discord</a></p>
+    <div class="download-overlay" id="download Overlay">
+        <p>Giving you the download, Please wait!</p>
+        <p class="not-released">Holy Executor Isn't Released Yet!</p>
     </div>
 
-    <div class="overlay" id="overlay">
-        <div class="overlay-text">Giving you the download, Please wait!</div>
-        <div class="not-released-text" id="notReleasedText">Holy Executor Isn't Released Yet!</div>
+    <div class="footer">
+        <p>© 2025 Holy Keys. All rights reserved.</p>
+        <p><a href="https://discord.gg/bbrwdhBpjh">FAQ</a> | <a href="https://discord.gg/bbrwdhBpjh">About Us</a> | <a href="https://discord.gg/bbrwdhBpjh">Discord</a> | <a href="#buy-key">Buy Key</a></p>
     </div>
 
     <script>
-        function triggerOverlay() {
-            const overlay = document.getElementById('overlay');
-            const notReleasedText = document.getElementById('notReleasedText');
-            const container = document.querySelector('.container');
-            const header = document.querySelector('.header');
-            const footer = document.querySelector('.footer');
-            const sidebar = document.querySelector('.sidebar');
-
-            // Apply blur to elements
-            container.classList.add('blur');
-            header.classList.add('blur');
-            footer.classList.add('blur');
-            sidebar.classList.add('blur');
-
-            // Show overlay
-            overlay.classList.add('active');
-
-            // Remove blur and hide overlay after 5 seconds
+        function showDownloadOverlay() {
+            const overlay = document.getElementById('downloadOverlay');
+            overlay.style.display = 'flex';
             setTimeout(() => {
-                container.classList.remove('blur');
-                header.classList.remove('blur');
-                footer.classList.remove('blur');
-                sidebar.classList.remove('blur');
-                overlay.classList.remove('active');
+                overlay.style.display = 'none';
             }, 5000);
+        }
+
+        function applyCoupon() {
+            const validCodes = ["Release25", "HolyOnTop", "CrazyHoly", "Release25Holy", "PremiumHolyIsCrazy", "WhyUseFree", "TheBig25"];
+            const couponInput = document.getElementById('couponCode').value;
+            const couponMessage = document.getElementById('couponMessage');
+            const couponSuccess = document.getElementById('couponSuccess');
+            const couponDiscount = document.getElementById('couponDiscount');
+            const couponError = document.getElementById('couponError');
+
+            if (validCodes.includes(couponInput)) {
+                couponMessage.style.display = 'block';
+                setTimeout(() => {
+                    couponMessage.style.display = 'none';
+                    couponSuccess.style.display = 'block';
+                    setTimeout(() => {
+                        couponSuccess.style.display = 'none';
+                        couponDiscount.style.display = 'block';
+                        setTimeout(() => {
+                            couponDiscount.style.display = 'none';
+                        }, 2000);
+                    }, 2000);
+                }, 3000);
+            } else {
+                couponError.style.display = 'block';
+                setTimeout(() => {
+                    couponError.style.display = 'none';
+                }, 2000);
+            }
         }
     </script>
 </body>
