@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Holy Keys Software Market</title>
+    <title>Holy Executor Official</title>
     <style>
         body {
             background-color: #1a1a1a; /* Matt black background */
@@ -12,11 +12,14 @@
             margin: 0;
             padding: 0;
             line-height: 1.6;
+            position: relative;
         }
         .container {
             max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
+            position: relative;
+            z-index: 1;
         }
         .sidebar {
             background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%); /* Smooth gray gradient */
@@ -86,6 +89,62 @@
             color: #63b3ff;
             text-decoration: underline;
         }
+        .download-button {
+            background-color: rgb(30, 30, 30);
+            color: #e0e0e0;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .download-button:hover {
+            background-color: rgb(50, 50, 50);
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            animation: fadeInOut 5s ease-in-out;
+        }
+        .overlay.active {
+            display: flex;
+        }
+        .overlay-text {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .not-released-text {
+            display: none;
+            color: #ff0000;
+            font-size: 1.3em;
+            font-weight: 600;
+            animation: showNotReleased 0.5s ease-in 2s forwards;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        @keyframes showNotReleased {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        .blur {
+            filter: blur(4px);
+            transition: filter 0.5s ease;
+        }
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 2.2em;
@@ -93,14 +152,20 @@
             .section {
                 padding: 15px;
             }
+            .overlay-text {
+                font-size: 1.2em;
+            }
+            .not-released-text {
+                font-size: 1.1em;
+            }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="header">
-        <h1>Holy Keys Official Seller</h1>
-        <p>Holy Keys Official Site</p>
+        <h1>Holy Executor Official Key Site</h1>
+        <p>Holy Executor Official Site</p>
     </div>
 
     <div class="container">
@@ -120,6 +185,11 @@
                 <li>Holy Keys Weekly - $1.00</li>
             </ul>
             <p>Check out our 4th July Sale for exclusive discounts!</p>
+        </div>
+
+        <div class="section" id="download">
+            <h2>Download Holy Executor</h2>
+            <button class="download-button" onclick="triggerOverlay()">Download</button>
         </div>
 
         <div class="section" id="reviews">
@@ -147,5 +217,39 @@
         <p>© 2025 Holy Keys. All rights reserved.</p>
         <p><a href="https://discord.gg/bbrwdhBpjh">FAQ</a> | <a href="https://discord.gg/bbrwdhBpjh">About Us</a> | <a href="https://discord.gg/bbrwdhBpjh">Discord</a></p>
     </div>
+
+    <div class="overlay" id="overlay">
+        <div class="overlay-text">Giving you the download, Please wait!</div>
+        <div class="not-released-text" id="notReleasedText">Holy Executor Isn't Released Yet!</div>
+    </div>
+
+    <script>
+        function triggerOverlay() {
+            const overlay = document.getElementById('overlay');
+            const notReleasedText = document.getElementById('notReleasedText');
+            const container = document.querySelector('.container');
+            const header = document.querySelector('.header');
+            const footer = document.querySelector('.footer');
+            const sidebar = document.querySelector('.sidebar');
+
+            // Apply blur to elements
+            container.classList.add('blur');
+            header.classList.add('blur');
+            footer.classList.add('blur');
+            sidebar.classList.add('blur');
+
+            // Show overlay
+            overlay.classList.add('active');
+
+            // Remove blur and hide overlay after 5 seconds
+            setTimeout(() => {
+                container.classList.remove('blur');
+                header.classList.remove('blur');
+                footer.classList.remove('blur');
+                sidebar.classList.remove('blur');
+                overlay.classList.remove('active');
+            }, 5000);
+        }
+    </script>
 </body>
 </html>
