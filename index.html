@@ -1,419 +1,592 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Holy Executor Official</title>
-    <style>
-        body {
-            background-color: #1a1a1a; /* Matt black background */
-            color: #e0e0e0; /* Light text for contrast */
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-            position: relative;
-        }
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
-        .sidebar {
-            background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%); /* Smooth gray gradient */
-            padding: 20px;
-            border-radius: 12px;
-            margin: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
-        }
-        .sidebar:hover {
-            transform: translateY(-5px);
-        }
-        .header {
-            text-align: center;
-            padding: 50px 0;
-            background: linear-gradient(90deg, #2a2a2a 0%, #1a1a1a 50%, #2a2a2a 100%); /* Smoother gradient */
-            border-bottom: 1px solid #333;
-        }
-        .header h1 {
-            font-size: 2.8em;
-            margin: 0;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-        }
-        .header p {
-            font-size: 1.2em;
-            opacity: 0.8;
-        }
-        .section {
-            margin: 25px 0;
-            padding: 25px;
-            background-color: #222222; /* Slightly lighter than matt black */
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
-        }
-        .section:hover {
-            transform: translateY(-5px);
-        }
-        .section h2 {
-            font-size: 1.9em;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-        .section ul {
-            list-style: none;
-            padding: 0;
-        }
-        .section ul li {
-            padding: 12px 0;
-            font-size: 1.1em;
-        }
-        .footer {
-            text-align: center;
-            padding: 25px;
-            background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%); /* Smooth footer gradient */
-            color: #e0e0e0;
-            width: 100%;
-            border-top: 1px solid #333;
-        }
-        a {
-            color: #1e90ff;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        a:hover {
-            color: #63b3ff;
-            text-decoration: underline;
-        }
-        .download-button, .coupon-button {
-            background-color: rgb(25, 25, 25);
-            color: #e0e0e0;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .download-button:hover, .coupon-button:hover {
-            background-color: rgb(45, 45, 45);
-        }
-        .coupon-input {
-            padding: 10px;
-            font-size: 1.1em;
-            border-radius: 8px;
-            border: 1px solid #333;
-            background-color: #2a2a2a;
-            color: #e0e0e0;
-            width: 200px;
-            margin-right: 10px;
-        }
-        .coupon-input::placeholder {
-            color: #888;
-        }
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 2;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            animation: fadeInOut 5s ease-in-out;
-        }
-        .coupon-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 2;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-        .coupon-overlay.active, .overlay.active {
-            display: flex;
-        }
-        .overlay-text, .coupon-text {
-            font-size: 1.5em;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-        .not-released-text {
-            display: none;
-            color: #ff0000;
-            font-size: 1.3em;
-            font-weight: 600;
-            animation: showNotReleased 0.5s ease-in 2s forwards;
-        }
-        .coupon-checking {
-            display: none;
-            font-size: 1.5em;
-            font-weight: 600;
-            animation: fadeInOutCoupon 3s ease-in-out forwards;
-        }
-        .coupon-success {
-            display: none;
-            font-size: 1.3em;
-            font-weight: 600;
-            color: #00ff00;
-            animation: fadeInOutSuccess 2s ease-in-out forwards;
-        }
-        .coupon-error {
-            display: none;
-            font-size: 1.3em;
-            font-weight: 600;
-            color: #ff0000;
-            animation: fadeInOutError 2s ease-in-out forwards;
-        }
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #2a2a2a;
-            color: #e0e0e0;
-            padding: 15px 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            z-index: 3;
-            font-size: 1.1em;
-            font-weight: 500;
-            animation: slideInOut 8s ease-in-out forwards;
-        }
-        @keyframes slideInOut {
-            0% { transform: translateX(100%); opacity: 0; }
-            10% { transform: translateX(0); opacity: 1; }
-            90% { transform: translateX(0); opacity: 1; }
-            100% { transform: translateX(100%); opacity: 0; }
-        }
-        @keyframes fadeInOut {
-            0% { opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-        @keyframes showNotReleased {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-        @keyframes fadeInOutCoupon {
-            0% { opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-        @keyframes fadeInOutSuccess {
-            0% { opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-        @keyframes fadeInOutError {
-            0% { opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-        .blur {
-            filter: blur(4px);
-            transition: filter 0.5s ease;
-        }
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2.2em;
-            }
-            .section {
-                padding: 15px;
-            }
-            .overlay-text, .coupon-text, .coupon-checking {
-                font-size: 1.2em;
-            }
-            .not-released-text, .coupon-success, .coupon-error {
-                font-size: 1.1em;
-            }
-            .coupon-input {
-                width: 150px;
-            }
-            .notification {
-                font-size: 0.9em;
-                padding: 10px 15px;
-                right: 10px;
-                top: 10px;
-            }
-        }
-    </style>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Holy Executor Official</title>
+  <style>
+    body {
+      background-color: #1a1a1a;
+      color: #e0e0e0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      opacity: 0;
+      animation: fadeInContainer 1s ease-in-out 0.5s forwards;
+    }
+
+    .sidebar {
+      background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
+      padding: 20px;
+      border-radius: 12px;
+      margin: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      opacity: 0;
+      animation: slideInSidebar 0.8s ease-in-out 0.8s forwards;
+    }
+
+    .sidebar:hover {
+      transform: translateY(-5px);
+    }
+
+    .header {
+      text-align: center;
+      padding: 50px 0;
+      background: linear-gradient(90deg, #2a2a2a 0%, #1a1a1a 50%, #2a2a2a 100%);
+      border-bottom: 1px solid #333;
+      opacity: 0;
+      animation: fadeInHeader 1s ease-in-out forwards;
+    }
+
+    .header h1 {
+      font-size: 2.8em;
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .header p {
+      font-size: 1.2em;
+      opacity: 0.8;
+      min-height: 1.5em;
+    }
+
+    .typewriter {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 0.15em solid #1e90ff;
+      animation: blinkCursor 0.7s step-end infinite;
+    }
+
+    .fade-out {
+      animation: fadeOut 0.5s ease-in-out forwards;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out forwards;
+    }
+
+    .section {
+      margin: 25px 0;
+      padding: 25px;
+      background-color: #222222;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform-origin: center center;
+      opacity: 0;
+      animation: fadeInSection 0.8s ease-in-out forwards;
+    }
+
+    .section:nth-child(1) { animation-delay: 1.0s; }
+    .section:nth-child(2) { animation-delay: 1.2s; }
+    .section:nth-child(3) { animation-delay: 1.4s; }
+    .section:nth-child(4) { animation-delay: 1.6s; }
+    .section:nth-child(5) { animation-delay: 1.8s; }
+
+    .section:hover {
+      transform: translateY(-5px);
+    }
+
+    .section h2 {
+      font-size: 1.9em;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .section ul li {
+      padding: 12px 0;
+      font-size: 1.1em;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 25px;
+      background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
+      color: #e0e0e0;
+      width: 100%;
+      border-top: 1px solid #333;
+      opacity: 0;
+      animation: fadeInFooter 1s ease-in-out 2s forwards;
+    }
+
+    a {
+      color: #1e90ff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: #63b3ff;
+      text-decoration: underline;
+    }
+
+    .download-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 1000;
+      animation: fadeInOut 5s ease-in-out;
+    }
+
+    .download-overlay p {
+      font-size: 1.5em;
+      margin: 10px 0;
+    }
+
+    .download-overlay .not-released {
+      color: #ff0000;
+      font-size: 1.3em;
+      font-weight: 600;
+      opacity: 0;
+      animation: fadeInDelayed 3s ease-in-out 2s forwards;
+    }
+
+    .download-button {
+      background-color: rgb(30, 30, 30);
+      color: #e0e0e0;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1em;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .download-button:hover {
+      background-color: rgb(50, 50, 50);
+      transform: scale(1.05);
+    }
+
+    .coupon-input {
+      padding: 10px;
+      font-size: 1em;
+      border: 1px solid #333;
+      border-radius: 8px;
+      background-color: #2a2a2a;
+      color: #e0e0e0;
+      width: 200px;
+      margin-right: 10px;
+      transition: border-color 0.3s ease;
+    }
+
+    .coupon-input:focus {
+      border-color: #1e90ff;
+      outline: none;
+    }
+
+    .apply-coupon {
+      background-color: rgb(25, 25, 25);
+      color: #e0e0e0;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1em;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .apply-coupon:hover {
+      background-color: rgb(45, 45, 45);
+      transform: scale(1.05);
+    }
+
+    .coupon-message,
+    .coupon-success,
+    .coupon-discount,
+    .coupon-error {
+      display: none;
+      font-size: 1.1em;
+      margin-top: 10px;
+      opacity: 0;
+    }
+
+    .coupon-message {
+      color: #e0e0e0;
+      animation: fadeInOutMessage 3s ease-in-out forwards;
+    }
+
+    .coupon-success {
+      color: #00ff00;
+      animation: fadeInOutSuccess 2s ease-in-out forwards;
+    }
+
+    .coupon-discount {
+      color: #1e90ff;
+      animation: fadeInOutDiscount 2s ease-in-out forwards;
+    }
+
+    .coupon-error {
+      color: #ff0000;
+      animation: fadeInOutError 2s ease-in-out forwards;
+    }
+
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #2a2a2a;
+      color: #e0e0e0;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      z-index: 1001;
+      font-size: 1.1em;
+      font-weight: 600;
+      animation: slideInOut 8s ease-in-out forwards;
+    }
+
+    @keyframes slideInOut {
+      0% { transform: translateX(100%); opacity: 0; }
+      10% { transform: translateX(0); opacity: 1; }
+      90% { transform: translateX(0); opacity: 1; }
+      100% { transform: translateX(100%); opacity: 0; }
+    }
+
+    @keyframes fadeInOut {
+      0%   { opacity: 0; transform: scale(0.98); }
+      10%  { opacity: 1; transform: scale(1); }
+      90%  { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(0.98); }
+    }
+
+    @keyframes fadeInDelayed {
+      0%   { opacity: 0; transform: translateY(15px); }
+      50%  { opacity: 1; transform: translateY(0); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInOutMessage {
+      0%   { opacity: 0; transform: translateY(5px); }
+      10%  { opacity: 1; transform: translateY(0); }
+      90%  { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(5px); }
+    }
+
+    @keyframes fadeInOutSuccess {
+      0%   { opacity: 0; transform: translateY(5px); }
+      10%  { opacity: 1; transform: translateY(0); }
+      90%  { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(5px); }
+    }
+
+    @keyframes fadeInOutDiscount {
+      0%   { opacity: 0; transform: translateY(5px); }
+      10%  { opacity: 1; transform: translateY(0); }
+      90%  { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(5px); }
+    }
+
+    @keyframes fadeInOutError {
+      0%   { opacity: 0; transform: translateY(5px); }
+      10%  { opacity: 1; transform: translateY(0); }
+      90%  { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(5px); }
+    }
+
+    @keyframes fadeInContainer {
+      0%   { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideInSidebar {
+      0%   { opacity: 0; transform: translateX(-20px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes fadeInHeader {
+      0%   { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInSection {
+      0%   { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInFooter {
+      0%   { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeOut {
+      0%   { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      0%   { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes blinkCursor {
+      0%  { border-right-color: #1e90ff; }
+      50% { border-right-color: transparent; }
+      100% { border-right-color: #1e90ff; }
+    }
+
+    @keyframes flashSection {
+      0%   { transform: scale(1); opacity: 1; }
+      50%  { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .section.flash {
+      animation: flashSection 1s ease-in-out forwards;
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 2.2em;
+      }
+
+      .header p {
+        font-size: 1em;
+      }
+
+      .section {
+        padding: 15px;
+      }
+
+      .notification {
+        font-size: 0.9em;
+        padding: 10px 15px;
+        right: 10px;
+        top: 10px;
+      }
+
+      .download-overlay p {
+        font-size: 1.2em;
+      }
+
+      .download-overlay .not-released {
+        font-size: 1.1em;
+      }
+
+      .coupon-input {
+        width: 150px;
+      }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-    <div class="header">
-        <h1>Holy Executor Official Key Site</h1>
-        <p>Holy Executor Official Site</p>
+  <div class="header">
+    <h1>Holy Executor Official Key Site</h1>
+    <p id="typewriter">Holy Executor Official Site</p>
+  </div>
+
+  <div class="container">
+    <div class="sidebar">
+      <h2>Quick Links</h2>
+      <ul>
+        <li><a href="https://discord.gg/bbrwdhBpjh">FAQ</a></li>
+        <li><a href="https://discord.gg/bbrwdhBpjh">About Us</a></li>
+        <li><a href="https://discord.gg/bbrwdhBpjh">Join Our Discord</a></li>
+        <li><a href="#buy-key" id="scrollToBuyKey">Buy Key</a></li>
+      </ul>
     </div>
 
-    <div class="container">
-        <div class="sidebar">
-            <h2>Quick Links</h2>
-            <ul>
-                <li><a href="https://discord.gg/bbrwdhBpjh">FAQ</a></li>
-                <li><a href="https://discord.gg/bbrwdhBpjh">About Us</a></li>
-                <li><a href="https://discord.gg/bbrwdhBpjh">Join Our Discord</a></li>
-            </ul>
-        </div>
-
-        <div class="section" id="best-sellers">
-            <h2>Best Sellers</h2>
-            <ul>
-                <li>Holy Keys Lifetime - $6. مجدي المحمدي
-            </ul>
-            <p>Check out our 4th July Sale for exclusive discounts!</p>
-        </div>
-
-        <div class="section" id="buy-key">
-            <h2>Buy Key</h2>
-            <ul>
-                <li>Holy Keys Lifetime - $6.00</li>
-                <li>Holy Keys Weekly - $1.00</li>
-            </ul>
-            <div>
-                <input type="text" class="coupon-input" id="couponInput" placeholder="ENTER DISCOUNT CODE">
-                <button class="coupon-button" onclick="checkCoupon()">⭐Apply Coupon⭐</button>
-            </div>
-        </div>
-
-        <div class="section" id="download">
-            <h2>Download Holy Executor</h2>
-            <button class="download-button" onclick="triggerOverlay()">Download</button>
-        </div>
-
-        <div class="section" id="reviews">
-            <h2>Customer Reviews</h2>
-            <p>"None Yet." - <strong>No Reviews</strong></p>
-        </div>
-
-        <div class="section" id="faq">
-            <h2>Frequently Asked Questions</h2>
-            <ul>
-                <li><strong>Is Holy Keys safe and reliable?</strong> Yes, we are trusted by thousands of customers!</li>
-                <li><strong>How fast will I receive my key?</strong> Most keys are delivered instantly after purchase.</li>
-                <li><strong>How can I receive my key?</strong> You need to add draxxil_music on Discord and send him a screenshot of the proof that you bought Holy Keys!</li>
-                <li><strong>Do you offer refunds?</strong> Yes, we have a satisfaction guarantee policy.</li>
-            </ul>
-        </div>
-
-        <div class="section" id="about">
-            <h2>About Us</h2>
-            <p>Holy Keys is your go-to marketplace for affordable and reliable software licenses. We pride ourselves on fast delivery, excellent customer support, and a trustworthy platform vouched for by users like <strong>SmokedOutTillIPassOut</strong> and <strong>ByteLzitt</strong>.</p>
-        </div>
+    <div class="section" id="download">
+      <h2>Download Holy Executor</h2>
+      <button class="download-button" onclick="showDownloadOverlay()">Download</button>
     </div>
 
-    <div class="footer">
-        <p>© 2025 Holy Keys. All rights reserved.</p>
-        <p><a href="https://discord.gg/bbrwdhBpjh">FAQ</a> | <a href="https://discord.gg/bbrwdhBpjh">About Us</a> | <a href="https://discord.gg/bbrwdhBpjh">Discord</a></p>
+    <div class="section" id="best-sellers">
+      <h2>Best Sellers</h2>
+      <ul>
+        <li>Holy Keys Lifetime - $6.00</li>
+        <li>Holy Keys Weekly - $1.00</li>
+      </ul>
+      <p>Check out our 4th July Sale for exclusive discounts!</p>
     </div>
 
-    <div class="overlay" id="overlay">
-        <div class="overlay-text">Giving you the download, Please wait!</div>
-        <div class="not-released-text" id="notReleasedText">Holy Executor Isn't Released Yet!</div>
+    <div class="section" id="buy-key">
+      <h2>Buy Key</h2>
+      <ul>
+        <li>Holy Keys Lifetime - $6.00</li>
+        <li>Holy Keys Weekly - $1.00</li>
+      </ul>
+
+      <div style="margin: 20px 0;">
+        <a href="https://holyexecutorkeys.mysellauth.com/" target="_blank">
+          <button class="download-button">🛒 Purchase on SellAuth</button>
+        </a>
+      </div>
+
+      <div>
+        <input type="text" class="coupon-input" id="couponCode" placeholder="ENTER DISCOUNT CODE" />
+        <button class="apply-coupon" onclick="applyCoupon()">⭐Apply Coupon⭐</button>
+      </div>
+
+      <p class="coupon-message" id="couponMessage">Checking Discount Code...</p>
+      <p class="coupon-success" id="couponSuccess">Discount Code Applied ✅</p>
+      <p class="coupon-discount" id="couponDiscount">🥳🎉 Now you have got a 1.5% off discount on your purchase!🥳🎉</p>
+      <p class="coupon-error" id="couponError">Please enter a valid coupon code and try again!</p>
     </div>
 
-    <div class="coupon-overlay" id="couponOverlay">
-        <div class="coupon-checking" id="couponChecking">Checking Discount Code...</div>
-        <div class="coupon-success" id="couponSuccess">Discount Code Applied ✅</div>
-        <div class="coupon-error" id="couponError">Please enter a Valid coupon code and try again!</div>
+    <div class="section" id="reviews">
+      <h2>Customer Reviews</h2>
+      <p>"Holy is so good, they don't exit scam and provide THE BEST performance!" - <strong>AV3</strong></p>
     </div>
 
-    <div class="notification" id="notification">
-        Use this coupon code before it goes invalid! CrazyHoly 🎉🥳
+    <div class="section" id="faq">
+      <h2>Frequently Asked Questions</h2>
+      <ul>
+        <li><strong>Is Holy Keys safe and reliable?</strong> Yes, we are trusted by thousands of customers!</li>
+        <li><strong>How fast will I receive my key?</strong> Most keys are delivered instantly after purchase.</li>
+        <li><strong>How can I receive my key?</strong> Add draxxil_music on Discord and send proof of purchase!</li>
+        <li><strong>Do you offer refunds?</strong> Yes, we have a satisfaction guarantee policy.</li>
+      </ul>
     </div>
 
-    <script>
-        function triggerOverlay() {
-            const overlay = document.getElementById('overlay');
-            const notReleasedText = document.getElementById('notReleasedText');
-            const container = document.querySelector('.container');
-            const header = document.querySelector('.header');
-            const footer = document.querySelector('.footer');
-            const sidebar = document.querySelector('.sidebar');
+    <div class="section" id="about">
+      <h2>About Us</h2>
+      <p>Holy Keys is your go-to marketplace for the most affordable and reliable software licenses. We pride ourselves on fast delivery, excellent customer support, and a trustworthy platform vouched for by users like <strong>AV3.</strong></p>
+    </div>
+  </div>
 
-            // Apply blur to elements
-            container.classList.add('blur');
-            header.classList.add('blur');
-            footer.classList.add('blur');
-            sidebar.classList.add('blur');
+  <div class="download-overlay" id="downloadOverlay">
+    <p>Giving you the download, Please wait!</p>
+    <p class="not-released">Holy Executor Isn't Released Yet!</p>
+  </div>
 
-            // Show overlay
-            overlay.classList.add('active');
+  <div class="notification" id="notification">
+    Use this coupon code before it goes invalid! CrazyHoly 🎉🥳
+  </div>
 
-            // Remove blur and hide overlay after 5 seconds
+  <div class="footer">
+    <p>© 2025 Holy Keys. All rights reserved.</p>
+    <p>
+      <a href="https://discord.gg/bbrwdhBpjh">FAQ</a> |
+      <a href="https://discord.gg/bbrwdhBpjh">About Us</a> |
+      <a href="https://discord.gg/bbrwdhBpjh">Discord</a> |
+      <a href="#shop">Shop</a>
+    </p>
+  </div>
+
+  <script>
+    function showDownloadOverlay() {
+      const overlay = document.getElementById('downloadOverlay');
+      overlay.style.display = 'flex';
+      setTimeout(() => {
+        overlay.style.display = 'none';
+      }, 5000);
+    }
+
+    function applyCoupon() {
+      const validCodes = [
+        "Release25", "HolyOnTop", "CrazyHoly", "Release25Holy",
+        "PremiumHolyIsCrazy", "WhyUseFree", "TheBig25"
+      ];
+      const input = document.getElementById('couponCode').value;
+      const msg = document.getElementById('couponMessage');
+      const success = document.getElementById('couponSuccess');
+      const discount = document.getElementById('couponDiscount');
+      const error = document.getElementById('couponError');
+
+      if (validCodes.includes(input)) {
+        msg.style.display = 'block';
+        setTimeout(() => {
+          msg.style.display = 'none';
+          success.style.display = 'block';
+          setTimeout(() => {
+            success.style.display = 'none';
+            discount.style.display = 'block';
             setTimeout(() => {
-                container.classList.remove('blur');
-                header.classList.remove('blur');
-                footer.classList.remove('blur');
-                sidebar.classList.remove('blur');
-                overlay.classList.remove('active');
-            }, 5000);
+              discount.style.display = 'none';
+            }, 2000);
+          }, 2000);
+        }, 3000);
+      } else {
+        error.style.display = 'block';
+        setTimeout(() => {
+          error.style.display = 'none';
+        }, 2000);
+      }
+    }
+
+    document.getElementById('scrollToBuyKey').addEventListener('click', function (e) {
+      e.preventDefault();
+      const section = document.getElementById('buy-key');
+      section.classList.add('flash');
+      section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      setTimeout(() => {
+        section.classList.remove('flash');
+      }, 1000);
+    });
+
+    // Typewriter effect for header p tag
+    const messages = [
+      "Holy Executor Official Site",
+      "Thanks for checking out our website",
+      "Get Holy for Free for 2 weeks!"
+    ];
+    const typewriterElement = document.getElementById('typewriter');
+    let currentMessageIndex = 0;
+
+    function typeWriter(text, callback) {
+      let i = 0;
+      typewriterElement.textContent = '';
+      typewriterElement.classList.add('typewriter');
+      typewriterElement.classList.remove('fade-out');
+      typewriterElement.classList.add('fade-in');
+
+      function type() {
+        if (i < text.length) {
+          typewriterElement.textContent += text.charAt(i);
+          i++;
+          setTimeout(type, 80);
+        } else {
+          typewriterElement.classList.remove('typewriter');
+          setTimeout(() => {
+            typewriterElement.classList.remove('fade-in');
+            typewriterElement.classList.add('fade-out');
+            setTimeout(callback, 500);
+          }, 2000);
         }
+      }
+      type();
+    }
 
-        function checkCoupon() {
-            const validCoupons = ["Release25", "HolyOnTop", "CrazyHoly", "Release25Holy", "PremiumHolyIsCrazy", "WhyUseFree", "TheBig25"];
-            const couponInput = document.getElementById('couponInput').value.trim();
-            const couponOverlay = document.getElementById('couponOverlay');
-            const couponChecking = document.getElementById('couponChecking');
-            const couponSuccess = document.getElementById('couponSuccess');
-            const couponError = document.getElementById('couponError');
-            const container = document.querySelector('.container');
-            const header = document.querySelector('.header');
-            const footer = document.querySelector('.footer');
-            const sidebar = document.querySelector('.sidebar');
+    function cycleMessages() {
+      typeWriter(messages[currentMessageIndex], () => {
+        currentMessageIndex = (currentMessageIndex + 1) % messages.length;
+        setTimeout(cycleMessages, 500);
+      });
+    }
 
-            // Apply blur to elements
-            container.classList.add('blur');
-            header.classList.add('blur');
-            footer.classList.add('blur');
-            sidebar.classList.add('blur');
-
-            // Show overlay
-            couponOverlay.classList.add('active');
-
-            if (validCoupons.includes(couponInput)) {
-                // Show checking message
-                couponChecking.style.display = 'block';
-                setTimeout(() => {
-                    couponChecking.style.display = 'none';
-                    couponSuccess.style.display = 'block';
-                    setTimeout(() => {
-                        couponSuccess.style.display = 'none';
-                        couponOverlay.classList.remove('active');
-                        container.classList.remove('blur');
-                        header.classList.remove('blur');
-                        footer.classList.remove('blur');
-                        sidebar.classList.remove('blur');
-                    }, 2000);
-                }, 3000);
-            } else {
-                // Show error message
-                couponError.style.display = 'block';
-                setTimeout(() => {
-                    couponError.style.display = 'none';
-                    couponOverlay.classList.remove('active');
-                    container.classList.remove('blur');
-                    header.classList.remove('blur');
-                    footer.classList.remove('blur');
-                    sidebar.classList.remove('blur');
-                }, 2000);
-            }
-        }
-    </script>
+    // Start typewriter effect
+    setTimeout(cycleMessages, 500);
+  </script>
 </body>
 </html>
